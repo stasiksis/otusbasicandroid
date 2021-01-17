@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">OtusBasicLevelHomework</string>
+    <string name="details">Детали</string>
+    <string name="description_inception">Картинка для фильма начало</string>
+    <string name="description_mr_robot">Картинка Мистер Робот</string>
+    <string name="description_iron_man">Картинка фильма \"Железный челвоек\"</string>
+    <string name="description_x_men">Картинка фильма \"Люди X\"</string>
+
+    <string name="name_inception">Фильм \"Начало\"</string>
+    <string name="name_mr_robot">Фильм \"Мистер Робот\"</string>
+    <string name="name_iron_man">Фильм \"Железный челвоек\"</string>
+    <string name="name_x_men">Фильм \"Люди X\"</string>
 </resources>

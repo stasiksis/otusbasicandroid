@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OtusBasicLevelHomework</string>
+    <string name="details">Details</string>
+    <string name="description_inception">Picture \"Inception\"</string>
+    <string name="description_mr_robot">Picture \"Mr robot\"</string>
+    <string name="description_iron_man">Picture \"Iron Man\"</string>
+    <string name="description_x_men">Picture \"X Men\"</string>
+
+    <string name="name_inception">Movie \"Inception\"</string>
+    <string name="name_mr_robot">Movie \"Mr robot\"</string>
+    <string name="name_iron_man">Movie \"The Iron man\"</string>
+    <string name="name_x_men">Movie \"X men\"</string>
+</resources>
