@@ -13,4 +13,6 @@
 
     <string name="share">Share</string>
 
+    <string name="checkbox_like">Do you like?</string>
+
 </resources>

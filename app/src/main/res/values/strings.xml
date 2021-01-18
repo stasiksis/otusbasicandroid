@@ -11,4 +11,5 @@
     <string name="name_iron_man">Фильм \"Железный челвоек\"</string>
     <string name="name_x_men">Фильм \"Люди X\"</string>
     <string name="share">рассказать</string>
+    <string name="checkbox_like">Тебе нравится?</string>
 </resources>

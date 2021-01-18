@@ -1,17 +1,18 @@
 package com.sfedorchuk.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.sfedorchuk.R
 import com.sfedorchuk.data.DetailsInfoAboutMovie
+import com.sfedorchuk.data.LikeData
 
 class DetailInfoAboutMovieActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MOVIE = "EXTRA_MOVIE"
+        const val EXTRA_DATA = "EXTRA_DATA"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,5 +39,23 @@ class DetailInfoAboutMovieActivity : AppCompatActivity() {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+
+        val intent: Intent = Intent().apply {
+            putExtra(
+                EXTRA_DATA,
+                LikeData(
+                    findViewById<CheckBox>(R.id.checkbox_like).isChecked,
+                    findViewById<EditText>(R.id.edit_text).text.toString()
+                )
+            )
+        }
+        setResult(Activity.RESULT_OK, intent)
+
+        finish()
+
     }
 }

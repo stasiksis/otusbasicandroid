@@ -3,11 +3,14 @@ package com.sfedorchuk.activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sfedorchuk.R
 import com.sfedorchuk.data.DetailsInfoAboutMovie
+import com.sfedorchuk.data.LikeData
 import com.sfedorchuk.data.MovieInfo
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                     DetailInfoAboutMovieActivity.EXTRA_MOVIE,
                     DetailsInfoAboutMovie(MovieInfo.INCEPTION, Color.RED)
                 )
-                startActivity(this)
+                startActivityForResult(this, 1)
             }
         }
 
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     DetailInfoAboutMovieActivity.EXTRA_MOVIE,
                     DetailsInfoAboutMovie(MovieInfo.MR_ROBOT, Color.RED)
                 )
-                startActivity(this)
+                startActivityForResult(this, 2)
             }
         }
 
@@ -65,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     DetailInfoAboutMovieActivity.EXTRA_MOVIE,
                     DetailsInfoAboutMovie(MovieInfo.IRON_MAN, Color.RED)
                 )
-                startActivity(this)
+                startActivityForResult(this, 3)
             }
         }
 
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     DetailInfoAboutMovieActivity.EXTRA_MOVIE,
                     DetailsInfoAboutMovie(MovieInfo.X_MEN, Color.RED)
                 )
-                startActivity(this)
+                startActivityForResult(this, 4)
             }
         }
 
@@ -103,6 +106,28 @@ class MainActivity : AppCompatActivity() {
             DetailInfoAboutMovieActivity.EXTRA_MOVIE,
             DetailsInfoAboutMovie(actualMovie, Color.RED)
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        data?.let {
+            it.getParcelableExtra<LikeData>(DetailInfoAboutMovieActivity.EXTRA_DATA)
+                ?.let { likeData ->
+                    Log.d(
+                        "debug",
+                        "Нравится ли фильм? ${likeData.checkboxValue}\n Комментарий: ${likeData.comment}"
+                    )
+
+                    val toast = Toast.makeText(
+                        applicationContext,
+                        "Нравится ли фильм? ${likeData.checkboxValue}\n Комментарий: ${likeData.comment}",
+                        Toast.LENGTH_LONG
+                    )
+                    toast.show()
+
+                }
+        }
     }
 
     private fun resetColor() {
