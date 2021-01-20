@@ -28,17 +28,6 @@ class DetailInfoAboutMovieActivity : AppCompatActivity() {
                 findViewById<TextView>(R.id.text_view_description)?.setText(it.name.movieDescription)
             }
         }
-
-        findViewById<Button>(R.id.button_share).setOnClickListener() {
-            val sendIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Посмотри фильм")
-                type = "text/plain"
-            }
-
-            val shareIntent = Intent.createChooser(sendIntent, null)
-            startActivity(shareIntent)
-        }
     }
 
     override fun onBackPressed() {

@@ -85,6 +85,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        findViewById<Button>(R.id.button_share).setOnClickListener() {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "Посмотри фильм")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+
         savedInstanceState?.getParcelable<DetailsInfoAboutMovie>(DetailInfoAboutMovieActivity.EXTRA_MOVIE)
             ?.let {
                 if (it.name != null) findViewById<TextView>(it.name.movieIdResource).setTextColor(it.actualColor)
