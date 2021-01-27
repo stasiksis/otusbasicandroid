@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">OtusBasicLevelHomework</string>
+    <string name="details">Details</string>
+    <string name="description_inception">Inception: The practice of entering dreams and planting an idea in someone\'s head. Normally Cobb and his team only invade dreams to steal secrets and they aren\'t sure if Inception is really possible. The Architect: The person who constructs the dream world inside the mind of the Dreamer.</string>
+    <string name="description_mr_robot">Mr. Robot follows Elliot, a young programmer who works as a cyber-security engineer by day and as a vigilante hacker by night. Elliot finds himself at a crossroads when the mysterious leader of an underground hacker group recruits him to destroy the firm he is paid to protect.</string>
+    <string name="description_iron_man">He is the Armored Avenger - driven by a heart that is part machine, but all hero! He is the INVINCIBLE IRON MAN! Iron Man\'s Powers and Abilities: Wears modular arc reactor-powered Iron Man armor, granting superhuman strength &amp; durability, the ability to fly &amp; project Repulsor blasts.</string>
+    <string name="description_x_men">X-Men, American comic strip team consisting of a rotating ensemble cast of mutants born with superhuman powers. … Created in 1963 by writer Stan Lee and artist Jack Kirby, the team became one of Marvel Comics\'s most successful properties.</string>
+
+    <string name="name_inception">Movie \"Inception\"</string>
+    <string name="name_mr_robot">Movie \"Mr robot\"</string>
+    <string name="name_iron_man">Movie \"The Iron man\"</string>
+    <string name="name_x_men">Movie \"X men\"</string>
+
+    <string name="share">Share</string>
+
+    <string name="checkbox_like">Do you like?</string>
+
+</resources>
