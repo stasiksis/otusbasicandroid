@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
-import com.sfedorchuk.data.FavouriteData
+import com.sfedorchuk.activity.MainActivity
 import com.sfedorchuk.view.MoviesItem
 import com.sfedorchuk.view_holders.MoviesVH
 
 class MoviesAdapter(
-    private val items: List<MoviesItem>,
+    private val items: ArrayList<MoviesItem>,
     private val clickListener: MoviesClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -27,30 +27,25 @@ class MoviesAdapter(
         val item = items[position]
 
         if (holder is MoviesVH) {
-            holder.bind(item)
-
+            if (MainActivity.IS_FAVORITE_SCREEN) {
+                if (item.isFavourite) {
+                    holder.bind(item)
+                    holder.imageFavourite.setBackgroundResource(R.drawable.ic_baseline_clear_24)
+                }
+            } else {
+                holder.bind(item)
+            }
 
             holder.imageFavourite.setOnClickListener {
-                if (item.isFavourite) {
-                    holder.imageFavourite.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24)
-                    items[position].isFavourite = false
-                    FavouriteData.listData.remove(item)
+                clickListener.onFavoriteDeleteClick(item, position)
+                if (MainActivity.IS_FAVORITE_SCREEN) {
+                    items.removeAt(position)
+                    notifyDataSetChanged()
                 } else {
-                    holder.imageFavourite.setBackgroundResource(R.drawable.ic_baseline_favorite_24)
-                    items[position].isFavourite = true
-                    FavouriteData.listData.add(item)
+                    notifyItemChanged(position)
                 }
             }
 
-//            holder.detailsButton.setOnClickListener {
-//                Intent(con, DetailInfoAboutMovieActivity::class.java).apply {
-//                    putExtra(
-//                        DetailInfoAboutMovieActivity.EXTRA_MOVIE,
-//                        DetailsInfoAboutMovie(MovieInfo.findItemByName(item.title), Color.RED)
-//                    )
-//                    startActivityForResult(con as Activity, 1)
-//                }
-//            }
             holder.detailsButton.setOnClickListener {
                 clickListener.onDetailsClick(item, position)
             }
@@ -59,5 +54,6 @@ class MoviesAdapter(
 
     interface MoviesClickListener {
         fun onDetailsClick(moviesItem: MoviesItem, position: Int)
+        fun onFavoriteDeleteClick(moviesItem: MoviesItem, position: Int)
     }
 }

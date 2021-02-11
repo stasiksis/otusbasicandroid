@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
 import com.sfedorchuk.adapters.MoviesAdapter
-import com.sfedorchuk.adapters.MoviesAdapterFavorite
 import com.sfedorchuk.data.DetailsInfoAboutMovie
 import com.sfedorchuk.data.FavouriteData
 import com.sfedorchuk.data.LikeData
@@ -27,6 +26,10 @@ import com.sfedorchuk.view.MoviesItem
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        var IS_FAVORITE_SCREEN: Boolean = false
+    }
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
 
@@ -112,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        initRecycler()
+        initRecycler(items as ArrayList<MoviesItem>)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -124,54 +127,47 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.all_list -> {
+                IS_FAVORITE_SCREEN = false
                 actualMenuItem = R.id.all_list
-                initRecycler()
+                initRecycler(items as ArrayList<MoviesItem>)
                 return true
             }
             R.id.favourites -> {
+                IS_FAVORITE_SCREEN = true
                 actualMenuItem = R.id.favourites
-                initRecyclerFavorite()
+                initRecycler(items.filter { it.isFavourite } as ArrayList<MoviesItem>)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun initRecycler() {
+    private fun initRecycler(itemsList: ArrayList<MoviesItem>) {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
-
-        recyclerView.adapter = MoviesAdapter(items, object : MoviesAdapter.MoviesClickListener {
+        Log.d("init", "init_r")
+        recyclerView.adapter = MoviesAdapter(itemsList, object : MoviesAdapter.MoviesClickListener {
             override fun onDetailsClick(moviesItem: MoviesItem, position: Int) {
                 Intent(this@MainActivity, DetailInfoAboutMovieActivity::class.java).apply {
                     putExtra(
                         DetailInfoAboutMovieActivity.EXTRA_MOVIE,
-                        DetailsInfoAboutMovie(findItemByName(items[position].title), Color.RED
+                        DetailsInfoAboutMovie(
+                            findItemByName(items[position].title), Color.RED
                         )
                     )
 
                     startActivity(this)
                 }
             }
-        })
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
+            override fun onFavoriteDeleteClick(moviesItem: MoviesItem, position: Int) {
+                if (IS_FAVORITE_SCREEN) {
+                    items.filter { it.isFavourite }[position].isFavourite = false
+                } else {
+                    items[position].isFavourite = !moviesItem.isFavourite
+                }
             }
         })
-
-        val itemDecoration = CustomItemDecoration(this, DividerItemDecoration.VERTICAL)
-
-        recyclerView.addItemDecoration(itemDecoration)
-
-    }
-
-    private fun initRecyclerFavorite() {
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
-
-        recyclerView.adapter = MoviesAdapterFavorite(FavouriteData.listData)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
