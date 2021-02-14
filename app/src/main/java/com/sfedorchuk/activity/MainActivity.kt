@@ -1,27 +1,25 @@
 package com.sfedorchuk.activity
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
+import android.content.res.Configuration
 import android.graphics.Color
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
 import com.sfedorchuk.adapters.MoviesAdapter
 import com.sfedorchuk.data.DetailsInfoAboutMovie
-import com.sfedorchuk.data.FavouriteData
 import com.sfedorchuk.data.LikeData
+import com.sfedorchuk.dialog.CustomDialog
 import com.sfedorchuk.view.MoviesItem
 
 
@@ -29,74 +27,75 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var IS_FAVORITE_SCREEN: Boolean = false
+        const val KEY_ITEMS: String = "KEY_ITEMS"
     }
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
 
-    private val items by lazy {
-        mutableListOf(
+    private var items =
+        arrayListOf(
             MoviesItem(
-                resources.getString(R.string.name_inception),
-                resources.getString(R.string.description_inception),
-                getDrawable(R.drawable.inception)
+                R.string.name_inception,
+                R.string.description_inception,
+                R.drawable.inception
             ),
             MoviesItem(
-                resources.getString(R.string.name_mr_robot),
-                resources.getString(R.string.description_mr_robot),
-                getDrawable(R.drawable.mr_robot)
+                R.string.name_mr_robot,
+                R.string.description_mr_robot,
+                R.drawable.mr_robot
             ),
             MoviesItem(
-                resources.getString(R.string.name_x_men),
-                resources.getString(R.string.description_x_men),
-                getDrawable(R.drawable.x_men)
+                R.string.name_x_men,
+                R.string.description_x_men,
+                R.drawable.x_men
             ),
             MoviesItem(
-                resources.getString(R.string.name_iron_man),
-                resources.getString(R.string.description_iron_man),
-                getDrawable(R.drawable.iron_man)
+                R.string.name_iron_man,
+                R.string.description_iron_man,
+                R.drawable.iron_man
             ),
             MoviesItem(
-                resources.getString(R.string.name_ai),
-                resources.getString(R.string.description_ai),
-                getDrawable(R.drawable.ai)
+                R.string.name_ai,
+                R.string.description_ai,
+                R.drawable.ai
             ),
             MoviesItem(
-                resources.getString(R.string.name_ice),
-                resources.getString(R.string.description_ice),
-                getDrawable(R.drawable.ice)
+                R.string.name_ice,
+                R.string.description_ice,
+                R.drawable.ice
             ),
             MoviesItem(
-                resources.getString(R.string.name_inception),
-                resources.getString(R.string.description_inception),
-                getDrawable(R.drawable.inception)
+                R.string.name_inception,
+                R.string.description_inception,
+                R.drawable.inception
             ),
             MoviesItem(
-                resources.getString(R.string.name_mr_robot),
-                resources.getString(R.string.description_mr_robot),
-                getDrawable(R.drawable.mr_robot)
+                R.string.name_mr_robot,
+                R.string.description_mr_robot,
+                R.drawable.mr_robot
             ),
             MoviesItem(
-                resources.getString(R.string.name_x_men),
-                resources.getString(R.string.description_x_men),
-                getDrawable(R.drawable.x_men)
+                R.string.name_x_men,
+                R.string.description_x_men,
+                R.drawable.x_men
             ),
             MoviesItem(
-                resources.getString(R.string.name_iron_man),
-                resources.getString(R.string.description_iron_man),
-                getDrawable(R.drawable.iron_man)
+                R.string.name_iron_man,
+                R.string.description_iron_man,
+                R.drawable.iron_man
             ),
             MoviesItem(
-                resources.getString(R.string.name_ai),
-                resources.getString(R.string.description_ai),
-                getDrawable(R.drawable.ai)
+                R.string.name_ai,
+                R.string.description_ai,
+                R.drawable.ai
             ),
             MoviesItem(
-                resources.getString(R.string.name_ice),
-                resources.getString(R.string.description_ice),
-                getDrawable(R.drawable.ice)
+                R.string.name_ice,
+                R.string.description_ice,
+                R.drawable.ice
             )
         )
-    }
+
 
     private var actualMenuItem: Int = R.id.all_list
 
@@ -115,7 +114,25 @@ class MainActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        initRecycler(items as ArrayList<MoviesItem>)
+        if (savedInstanceState != null) {
+            savedInstanceState.getParcelableArrayList<MoviesItem>(KEY_ITEMS)
+                .let {
+                    it?.forEachIndexed { index, moviesItem -> items[index] = moviesItem }
+                    initRecycler()
+                }
+        } else {
+            initRecycler()
+        }
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putParcelableArrayList(
+            KEY_ITEMS,
+            items
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -124,50 +141,76 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onBackPressed() {
+        val dialog = CustomDialog(this)
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.all_list -> {
                 IS_FAVORITE_SCREEN = false
                 actualMenuItem = R.id.all_list
-                initRecycler(items as ArrayList<MoviesItem>)
+                initRecycler()
                 return true
             }
             R.id.favourites -> {
                 IS_FAVORITE_SCREEN = true
                 actualMenuItem = R.id.favourites
-                initRecycler(items.filter { it.isFavourite } as ArrayList<MoviesItem>)
+                initRecycler()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun initRecycler(itemsList: ArrayList<MoviesItem>) {
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
-        Log.d("init", "init_r")
-        recyclerView.adapter = MoviesAdapter(itemsList, object : MoviesAdapter.MoviesClickListener {
-            override fun onDetailsClick(moviesItem: MoviesItem, position: Int) {
-                Intent(this@MainActivity, DetailInfoAboutMovieActivity::class.java).apply {
-                    putExtra(
-                        DetailInfoAboutMovieActivity.EXTRA_MOVIE,
-                        DetailsInfoAboutMovie(
-                            findItemByName(items[position].title), Color.RED
+    private fun initRecycler() {
+        val orientation: Int = resources.configuration.orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            recyclerView.layoutManager = layoutManager
+        } else {
+            recyclerView.layoutManager = GridLayoutManager(this, 2)
+        }
+
+        val itemList: List<MoviesItem> =
+            if (!IS_FAVORITE_SCREEN) items else items.filter { it.isFavourite }
+
+        recyclerView.adapter = MoviesAdapter(
+            itemList as ArrayList<MoviesItem>,
+            object : MoviesAdapter.MoviesClickListener {
+                override fun onDetailsClick(moviesItem: MoviesItem, position: Int) {
+                    items.forEach {
+                        it.color = Color.BLACK
+                    }
+                    if (IS_FAVORITE_SCREEN) {
+                        items.filter { it.isFavourite }[position].color = Color.RED
+                    } else {
+                        items[position].color = Color.RED
+                    }
+
+                    Intent(this@MainActivity, DetailInfoAboutMovieActivity::class.java).apply {
+                        putExtra(
+                            DetailInfoAboutMovieActivity.EXTRA_MOVIE,
+                            DetailsInfoAboutMovie(
+                                findItemByName(items[position].title), Color.RED
+                            )
                         )
-                    )
 
-                    startActivity(this)
+                        startActivityForResult(this, 1)
+                    }
                 }
-            }
 
-            override fun onFavoriteDeleteClick(moviesItem: MoviesItem, position: Int) {
-                if (IS_FAVORITE_SCREEN) {
-                    items.filter { it.isFavourite }[position].isFavourite = false
-                } else {
-                    items[position].isFavourite = !moviesItem.isFavourite
+                override fun onFavoriteDeleteClick(moviesItem: MoviesItem, position: Int) {
+                    Log.d("count_fav", "${items.filter { it.isFavourite }.size}")
+                    if (IS_FAVORITE_SCREEN) {
+                        items.filter { it.isFavourite }[position].isFavourite = false
+                    } else {
+                        items[position].isFavourite = !moviesItem.isFavourite
+                    }
                 }
-            }
-        })
+            })
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -175,15 +218,16 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        val itemDecoration = CustomItemDecoration(this, DividerItemDecoration.VERTICAL)
-
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(itemDecoration)
 
+        val itemDecorationHorizontal = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
+        recyclerView.addItemDecoration(itemDecorationHorizontal)
     }
 
-    fun findItemByName(name: String): MovieInfo? {
+    fun findItemByName(name: Int): MovieInfo? {
         MovieInfo.values().forEach {
-            if (resources.getString(it.movieName) == name) {
+            if (resources.getString(it.movieName) == resources.getString(name)) {
                 return it
             }
         }
@@ -209,23 +253,6 @@ class MainActivity : AppCompatActivity() {
                     toast.show()
 
                 }
-        }
-    }
-
-
-    class CustomItemDecoration(context: Context, orientation: Int) :
-        DividerItemDecoration(context, orientation) {
-        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-            super.onDraw(c, parent, state)
-        }
-
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            super.getItemOffsets(outRect, view, parent, state)
         }
     }
 

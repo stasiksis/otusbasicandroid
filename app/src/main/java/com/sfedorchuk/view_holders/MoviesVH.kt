@@ -11,14 +11,14 @@ import com.sfedorchuk.view.MoviesItem
 import kotlinx.android.synthetic.main.item_movies.view.*
 
 class MoviesVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val titleTv: TextView = itemView.findViewById(R.id.titleTv)
+    val titleTv: TextView = itemView.findViewById(R.id.titleTv)
     val imageView: ImageView = itemView.findViewById(R.id.image)
     val imageFavourite: ImageView = itemView.findViewById(R.id.favourite)
     val detailsButton: Button = itemView.findViewById(R.id.details)
 
     fun bind(item: MoviesItem) {
-        titleTv.text = item.title
-        imageView.setImageDrawable(item.image)
+        titleTv.text = itemView.context.resources.getString(item.title)
+        imageView.setImageResource(item.image)
 
         if (item.isFavourite) {
             imageFavourite.setBackgroundResource(R.drawable.ic_baseline_favorite_24)

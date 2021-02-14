@@ -1,5 +1,9 @@
 package com.sfedorchuk.view
 
-import android.graphics.drawable.Drawable
+import android.graphics.Color
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class MoviesItem(val title: String, val description: String, val image: Drawable?, var isFavourite: Boolean = false)
+@Parcelize
+class MoviesItem(val title: Int, val description: Int, val image: Int, var isFavourite: Boolean = false, var color: Int = Color.BLACK) :
+    Parcelable

@@ -31,8 +31,6 @@ class DetailInfoAboutMovieActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-//        super.onBackPressed()
-
         val intent: Intent = Intent().apply {
             putExtra(
                 EXTRA_DATA,

@@ -27,6 +27,7 @@ class MoviesAdapter(
         val item = items[position]
 
         if (holder is MoviesVH) {
+            holder.titleTv.setTextColor(item.color)
             if (MainActivity.IS_FAVORITE_SCREEN) {
                 if (item.isFavourite) {
                     holder.bind(item)
@@ -47,6 +48,7 @@ class MoviesAdapter(
             }
 
             holder.detailsButton.setOnClickListener {
+                notifyDataSetChanged()
                 clickListener.onDetailsClick(item, position)
             }
         }
