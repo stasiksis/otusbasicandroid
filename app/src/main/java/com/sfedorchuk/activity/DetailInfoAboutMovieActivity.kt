@@ -21,11 +21,11 @@ class DetailInfoAboutMovieActivity : AppCompatActivity() {
         setContentView(R.layout.activity_details_info_movie)
 
         intent.getParcelableExtra<DetailsInfoAboutMovie>(EXTRA_MOVIE)?.let {
-            if (it.name != null) {
-                findViewById<ImageView>(R.id.image_view_details)?.setImageResource(it.name.movieSrc)
-                findViewById<TextView>(R.id.text_view_name)?.setText(it.name.movieName)
+            if (it.movieInfo != null) {
+                findViewById<ImageView>(R.id.image_view_details)?.setImageResource(it.movieInfo.movieSrc)
+                findViewById<TextView>(R.id.text_view_name)?.setText(it.movieInfo.movieName)
                 findViewById<TextView>(R.id.text_view_name)?.setTextColor(it.actualColor)
-                findViewById<TextView>(R.id.text_view_description)?.setText(it.name.movieDescription)
+                findViewById<TextView>(R.id.text_view_description)?.setText(it.movieInfo.movieDescription)
             }
         }
     }
