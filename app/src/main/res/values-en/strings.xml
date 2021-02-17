@@ -14,5 +14,15 @@
     <string name="share">Share</string>
 
     <string name="checkbox_like">Do you like?</string>
+    <string name="all_list">All list</string>
+    <string name="favourite">Favourites</string>
+    <string name="name_ai">Movie \"Artificial Intelligence\"</string>
+    <string name="description_ai">Artificial intelligence has chosen a woman as a model for observing humanity. Depending on the behavior of the heroine, the higher computer mind will decide whether to keep the imperfect humans alive or wipe them off the face of the Earth.</string>
+    <string name="name_ice">Movie \"Ice\"</string>
+    <string name="description_ice">From the very childhood, Nadya dreamed that, to the applause of the audience, she would go out on the ice, where she would show her most grandiose performance. Thanks to her perseverance, the girl manages to become a famous figure skater. However, literally two steps from the fulfillment of her cherished dream, life throws her a serious test. In order to overcome it, Nadia must again trust her dream.</string>
+    <string name="exit">Are you sure you want to quit this beautiful app?</string>
+    <string name="exit_description">The best application asks to log out</string>
+    <string name="yes">Yes</string>
+    <string name="no">I do not want</string>
 
 </resources>
