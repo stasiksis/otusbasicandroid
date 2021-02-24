@@ -3,9 +3,11 @@
     <item
         android:id="@+id/all_list"
         android:orderInCategory="1"
+        android:icon="@drawable/ic_baseline_movie_24"
         android:title="@string/all_list" />
     <item
         android:id="@+id/favourites"
         android:orderInCategory="2"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
         android:title="@string/favourite" />
 </menu>
