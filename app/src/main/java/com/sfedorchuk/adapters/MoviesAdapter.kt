@@ -1,21 +1,20 @@
 package com.sfedorchuk.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
 import com.sfedorchuk.activity.MainActivity
-import com.sfedorchuk.view.MoviesItem
+import com.sfedorchuk.data.MoviesItem
 import com.sfedorchuk.view_holders.MoviesVH
 
 class MoviesAdapter(
-    private val layoutInflater: LayoutInflater,
     private val items: ArrayList<MoviesItem>,
     private val listener: MoviesClickListener?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesVH {
+        val layoutInflater = LayoutInflater.from(parent.context)
         return MoviesVH(layoutInflater.inflate(R.layout.item_movies, parent, false))
     }
 

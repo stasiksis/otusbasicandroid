@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
 import com.sfedorchuk.adapters.MoviesAdapter
-import com.sfedorchuk.view.MoviesItem
+import com.sfedorchuk.data.MoviesItem
 
 class MoviesListFragment(private val items: ArrayList<MoviesItem>) : Fragment() {
     companion object {

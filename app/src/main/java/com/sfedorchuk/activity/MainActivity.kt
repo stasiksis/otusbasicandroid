@@ -14,7 +14,7 @@ import com.sfedorchuk.data.DetailsInfoAboutMovie
 import com.sfedorchuk.dialog.CustomDialog
 import com.sfedorchuk.fragments.MovieDetailsFragment
 import com.sfedorchuk.fragments.MoviesListFragment
-import com.sfedorchuk.view.MoviesItem
+import com.sfedorchuk.data.MoviesItem
 
 
 class MainActivity : AppCompatActivity(), MoviesAdapter.MoviesClickListener {
