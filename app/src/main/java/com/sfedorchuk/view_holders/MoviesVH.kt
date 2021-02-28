@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
-import com.sfedorchuk.view.MoviesItem
+import com.sfedorchuk.data.MoviesItem
 
 class MoviesVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val titleTv: TextView = itemView.findViewById(R.id.titleTv)

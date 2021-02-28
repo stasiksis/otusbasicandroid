@@ -1,4 +1,4 @@
-package com.sfedorchuk.view
+package com.sfedorchuk.data
 
 import android.graphics.Color
 import android.os.Parcelable

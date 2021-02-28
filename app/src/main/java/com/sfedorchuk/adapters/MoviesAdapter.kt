@@ -5,18 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sfedorchuk.R
 import com.sfedorchuk.activity.MainActivity
-import com.sfedorchuk.view.MoviesItem
+import com.sfedorchuk.data.MoviesItem
 import com.sfedorchuk.view_holders.MoviesVH
 
 class MoviesAdapter(
     private val items: ArrayList<MoviesItem>,
-    private val clickListener: MoviesClickListener
+    private val listener: MoviesClickListener?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesVH {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_movies, parent, false)
-        return MoviesVH(view)
+        return MoviesVH(layoutInflater.inflate(R.layout.item_movies, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -25,6 +24,7 @@ class MoviesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[position]
+
 
         if (holder is MoviesVH) {
             holder.titleTv.setTextColor(item.color)
@@ -38,7 +38,7 @@ class MoviesAdapter(
             }
 
             holder.imageFavourite.setOnClickListener {
-                clickListener.onFavoriteDeleteClick(item, position)
+                listener?.onFavoriteDeleteClick(item, position)
                 if (MainActivity.IS_FAVORITE_SCREEN) {
                     items.removeAt(position)
                     notifyDataSetChanged()
@@ -49,7 +49,7 @@ class MoviesAdapter(
 
             holder.detailsButton.setOnClickListener {
                 notifyDataSetChanged()
-                clickListener.onDetailsClick(item, position)
+                listener?.onDetailsClick(item, position)
             }
         }
     }
